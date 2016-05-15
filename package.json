@@ -1,0 +1,23 @@
+{
+  "name": "oolon-rethink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "coffee -c -o dist src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cullophid/oolon-rethink.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cullophid/oolon-rethink/issues"
+  },
+  "homepage": "https://github.com/cullophid/oolon-rethink#readme",
+  "dependencies": {
+    "ramda": "^0.21.0",
+    "rethinkdb": "^2.3.1"
+  }
+}
