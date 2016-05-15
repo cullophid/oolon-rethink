@@ -6,6 +6,7 @@
   "scripts": {
     "build": "coffee -c -o dist src"
   },
+  "files": [ "dist" ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cullophid/oolon-rethink.git"
