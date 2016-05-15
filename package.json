@@ -1,12 +1,14 @@
 {
   "name": "oolon-rethink",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "coffee -c -o dist src"
   },
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cullophid/oolon-rethink.git"
