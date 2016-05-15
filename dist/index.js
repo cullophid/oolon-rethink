@@ -24,7 +24,7 @@
 
   all = curry((function(_this) {
     return function(table, conn) {
-      return toArray(rethink.table(table).run(conn));
+      return toArray(rethink.table(table).limit(50).run(conn));
     };
   })(this));
 

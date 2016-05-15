@@ -9,7 +9,7 @@ changes = curry (table, conn) =>
   rethink.table(table).changes().run(conn)
 
 all = curry (table, conn) =>
-  toArray rethink.table(table).run(conn)
+  toArray rethink.table(table).limit(50).run(conn)
 
 insert = curry (table, doc, conn) =>
   rethink.table(table).insert(doc).run(conn)
