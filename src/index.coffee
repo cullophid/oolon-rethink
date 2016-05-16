@@ -1,6 +1,6 @@
 rethink = require 'rethinkdb'
 {parse: parseUrl} = require 'url'
-{curry} = require 'ramda'
+{curry, tail} = require 'ramda'
 
 toArray = (query) =>
   query.then (cursor) => cursor.toArray()
@@ -21,9 +21,9 @@ filter = curry (table, filter, conn) =>
   toArray rethink.table(table).filter(filter).run(conn)
 
 module.exports = (url) =>
-  {hostname, port} = parseUrl url
+  {hostname, port, path} = parseUrl url
 
-  connection = rethink.connect host:hostname, port:port
+  connection = rethink.connect host:hostname, port:port, db: (tail path) || 'test'
     .catch (err) =>
       console.error 'CONNECTION ERROR', err
       process.exit 1
