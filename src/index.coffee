@@ -8,7 +8,13 @@ parseUrl = (url) =>
 module.exports = (url) =>
   options = parseUrl url
   connect = (options) => rethink.connect options
-  _run = (query) => connect(options).then (conn) => query.run conn
+  _run = (query) =>
+    connect(options)
+    .then (conn) =>
+      query.run conn
+      .then (res) ->
+        conn.close()
+        res
 
   run: _run
   toArray: (query) => _run(query).then (cur) => cur.toArray()
