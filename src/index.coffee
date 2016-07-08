@@ -6,8 +6,9 @@ parseUrl = (url) =>
   {host: hostname, port, db: (tail path) || 'test'}
 
 module.exports = (url) =>
-  connectionPromise = rethink.connect parseUrl url
-  _run = (query) => connectionPromise.then (conn) => query.run conn
+  options = parseUrl url
+  connect = (options) => rethink.connect options
+  _run = (query) => connect(options).then (conn) => query.run conn
 
   run: _run
   toArray: (query) => _run(query).then (cur) => cur.toArray()
