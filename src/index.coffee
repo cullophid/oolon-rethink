@@ -10,14 +10,13 @@ module.exports = (url) =>
   connect = (options) => rethink.connect options
   _run = (query) =>
     connect(options)
-    .then (conn) =>
-      query.run conn
-      .then (res) ->
-        conn.close()
-        res
+      .then (conn) =>
+        query.run conn
+          .then (res) ->
+            conn.close()
+            res
 
   run: _run
   toArray: (query) => _run(query).then (cur) => cur.toArray()
   each: curry (fn, query) => _run(query).then (cur) => cur.each fn
   eachAsync: curry ( fn, query) => _run(query).then (cur) => cur.eachAsync fn
-  each: curry (fn, query) => _run(query).then (cur) => cur.each fn

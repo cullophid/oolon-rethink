@@ -22,11 +22,17 @@
 
   module.exports = (function(_this) {
     return function(url) {
-      var _run, connectionPromise;
-      connectionPromise = rethink.connect(parseUrl(url));
+      var _run, connect, options;
+      options = parseUrl(url);
+      connect = function(options) {
+        return rethink.connect(options);
+      };
       _run = function(query) {
-        return connectionPromise.then(function(conn) {
-          return query.run(conn);
+        return connect(options).then(function(conn) {
+          return query.run(conn).then(function(res) {
+            conn.close();
+            return res;
+          });
         });
       };
       return {
@@ -44,11 +50,6 @@
         eachAsync: curry(function(fn, query) {
           return _run(query).then(function(cur) {
             return cur.eachAsync(fn);
-          });
-        }),
-        each: curry(function(fn, query) {
-          return _run(query).then(function(cur) {
-            return cur.each(fn);
           });
         })
       };

@@ -1,8 +1,27 @@
-{toArray, run} = require('./dist') 'rethink://192.168.99.100:28015/test'
+test = require 'tape'
+sinon = require 'sinon'
+{any} = require 'ramda'
+db = require('./dist') 'rethink://localhost:28015/test'
 r = require 'rethinkdb'
 
-run r.table('test').insert({msg: 'test'})
-.then () =>
-  toArray r.table('test')
-    .then (res) => console.log 'res', res
-    .catch (err) => console.log 'err', err
+
+test 'run should execure a query', (t) ->
+  t.plan 1
+  db.run r.table('test').insert({msg: 'test'})
+  .then (res) =>
+    t.equals(res.inserted, 1)
+
+test 'toArray should return an array of results', (t) ->
+  t.plan 1
+  db.toArray r.table('test')
+  .then (results) =>
+    t.equals (any (({msg}) -> msg == 'test'), results), true
+
+test 'each should call the funciton for each result', (t) ->
+  t.plan 1
+  spy = sinon.spy()
+  db.each spy, r.table('test').changes()
+
+  db.run r.table('test').insert({msg: 'each test'})
+    .then (results) =>
+      t.equals spy.calledOnce, true
