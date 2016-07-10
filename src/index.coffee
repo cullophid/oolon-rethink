@@ -1,12 +1,22 @@
 rethink = require 'rethinkdb'
-{curry, tail} = require 'ramda'
+{split, merge, curry, tail} = require 'ramda'
 {parse} = require 'url'
-parseUrl = (url) =>
-  {hostname, port, path} = parse url
-  {host: hostname, port, db: (tail path) || 'test'}
+
+getConnectionOptions = (url) =>
+  {hostname, port, path, auth} = parse url
+  options =
+    host: hostname
+    port: port
+    db: (tail path) || 'test'
+  if auth
+    [user, password] = split ':', auth
+    merge options, {user, password}
+  else
+    options
+
 
 module.exports = (url) =>
-  options = parseUrl url
+  options = getConnectionOptions url
   connect = (options) => rethink.connect options
   _run = (query) =>
     connect(options)

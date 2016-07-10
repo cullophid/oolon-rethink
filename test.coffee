@@ -1,7 +1,7 @@
 test = require 'tape'
 sinon = require 'sinon'
 {any} = require 'ramda'
-db = require('./dist') 'rethink://localhost:28015/test'
+db = require('./dist') 'rethink://admin:password@localhost:28015/test'
 r = require 'rethinkdb'
 
 
